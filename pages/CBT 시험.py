@@ -1,4 +1,6 @@
 import streamlit as st
+from database import save_exam
+from datetime import datetime
 
 st.set_page_config(page_title="CBT 시험", page_icon="📝", layout="wide")
 
@@ -10,34 +12,45 @@ st.title("📝 설비보전기능사 CBT")
 
 questions = [
     {
+        "id": 1,
+        "chapter": "베어링",
+        "difficulty": "보통",
+
         "question": "베어링의 주요 역할은 무엇인가?",
+
         "choices": [
             "동력 전달",
             "마찰 감소",
             "절삭",
             "용접"
         ],
-        "answer": "마찰 감소"
+
+        "answer_index": 1,
+
+        "explanation": "",
+
+        "concept": ""
     },
+
     {
+        "id": 2,
+        "chapter": "용접",
+        "difficulty": "쉬움",
+
         "question": "용접 작업 시 가장 먼저 착용해야 하는 것은?",
+
         "choices": [
             "장갑",
             "안전화",
             "보안면",
             "귀마개"
         ],
-        "answer": "보안면"
-    },
-    {
-        "question": "윤활유의 주요 역할은 무엇인가?",
-        "choices": [
-            "냉각",
-            "마찰 감소",
-            "절삭",
-            "도장"
-        ],
-        "answer": "마찰 감소"
+
+        "answer_index": 2,
+
+        "explanation": "",
+
+        "concept": ""
     }
 ]
 
@@ -126,7 +139,7 @@ with col2:
 
                 for i, q in enumerate(questions):
 
-                    if st.session_state.answers[i] == q["answer"]:
+                    if st.session_state.answers[i] == q["answer_index"]:
                         score += 1
 
                     else:
@@ -136,12 +149,23 @@ with col2:
                             "question": q["question"],
                             "choices": q["choices"],
                             "my_answer": st.session_state.answers[i],
-                            "correct_answer": q["answer"]
+                            "correct_answer": q["answer_index"]
                         })
 
                 st.session_state.score = score
-                st.session_state.total_questions = len(questions)
-                st.session_state.wrong_questions = wrong_questions
+st.session_state.total_questions = len(questions)
+st.session_state.wrong_questions = wrong_questions
 
-                # 다음 페이지에서 사용
-                st.switch_page("pages/시험결과.py")
+# 시험 기록 저장
+exam_id = save_exam(
+    exam_date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    score=score,
+    total_questions=len(questions),
+    duration=0
+)
+
+# 나중에 오답 저장할 때 사용
+st.session_state.exam_id = exam_id
+
+# 결과 페이지 이동
+st.switch_page("pages/시험결과.py")

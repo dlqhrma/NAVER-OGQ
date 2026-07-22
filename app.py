@@ -18,12 +18,13 @@ col1, col2 = st.columns(2)
 with col1:
     st.info("📘 문제 생성")
     st.write("AI가 새로운 CBT 문제를 생성합니다.")
-    st.button("시작하기", key="problem")
-
+    if st.button("시작하기", key="problem"):
+        st.switch_page("pages/문제생성.py")
 with col2:
     st.success("📝 CBT 시험")
     st.write("실제 CBT처럼 문제를 풉니다.")
-    st.button("시험 시작", key="cbt")
+    if st.button("시험 시작", key="cbt"):
+        st.switch_page("pages/CBT 시험.py")
 
 st.write("")
 
@@ -33,12 +34,14 @@ col3, col4 = st.columns(2)
 with col3:
     st.warning("📂 오답노트")
     st.write("틀린 문제를 다시 공부합니다.")
-    st.button("오답 보기", key="wrong")
+    if st.button("오답 보기", key="wrong"):
+        st.switch_page("pages/오답노트.py")
 
 with col4:
     st.error("📊 학습 분석")
     st.write("단원별 정답률을 확인합니다.")
-    st.button("분석 보기", key="analysis")
+    if st.button("분석 보기", key="analysis"):
+        st.switch_page("pages/학습분석.py")
 
 st.divider()
 
