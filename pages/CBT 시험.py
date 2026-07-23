@@ -1,5 +1,5 @@
 import streamlit as st
-from database import save_exam
+from database import save_exam, save_wrong_answer
 from datetime import datetime
 
 st.set_page_config(page_title="CBT 시험", page_icon="📝", layout="wide")
@@ -151,21 +151,36 @@ with col2:
                             "my_answer": st.session_state.answers[i],
                             "correct_answer": q["answer_index"]
                         })
-
+                        
                 st.session_state.score = score
-st.session_state.total_questions = len(questions)
-st.session_state.wrong_questions = wrong_questions
+                st.session_state.total_questions = len(questions)
+                st.session_state.wrong_questions = wrong_questions
+                # 시험 기록 저장
+                exam_id = save_exam(
+                    exam_date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    score=score,
+                    total_questions=len(questions),
+                    duration=0
+                )
+                today = datetime.now().strftime("%Y-%m-%d")
+                for i, q in enumerate(questions):
 
-# 시험 기록 저장
-exam_id = save_exam(
-    exam_date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-    score=score,
-    total_questions=len(questions),
-    duration=0
-)
+                    if st.session_state.answers[i] != q["answer_index"]:
 
-# 나중에 오답 저장할 때 사용
-st.session_state.exam_id = exam_id
+                         save_wrong_answer(
+                            exam_id=exam_id,
+                            question_id=q["id"],
+                            chapter=q["chapter"],
+                            question=q["question"],
+                            choices=q["choices"],
+                            my_answer=st.session_state.answers[i],
+                            correct_answer=q["answer_index"],
+                            explanation=q["explanation"],
+                            wrong_date=today
+                        )
 
-# 결과 페이지 이동
-st.switch_page("pages/시험결과.py")
+                # 나중에 오답 저장할 때 사용
+                st.session_state.exam_id = exam_id
+
+                # 결과 페이지 이동
+                st.switch_page("pages/시험결과.py")

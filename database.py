@@ -22,3 +22,44 @@ def save_exam(exam_date, score, total_questions, duration):
     conn.close()
 
     return exam_id
+def save_wrong_answer(
+    exam_id,
+    question_id,
+    chapter,
+    question,
+    choices,
+    my_answer,
+    correct_answer,
+    explanation,
+    wrong_date
+):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        INSERT INTO wrong_answers (
+            exam_id,
+            question_id,
+            chapter,
+            question,
+            choices,
+            my_answer,
+            correct_answer,
+            explanation,
+            wrong_date
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        exam_id,
+        question_id,
+        chapter,
+        question,
+        str(choices),
+        my_answer,
+        correct_answer,
+        explanation,
+        wrong_date
+    ))
+
+    conn.commit()
+    conn.close()
