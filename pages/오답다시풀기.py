@@ -65,10 +65,10 @@ if st.button("🤖 AI 해설 생성"):
         time.sleep(2)
 
     result = generate_ai_explanation(
-    question,
-    choices,
-    correct_answer,
-    my_answer
+        question,
+        choices,
+        correct_answer,
+        my_answer
 )
     st.success("AI 해설 생성 완료!")
     
@@ -111,11 +111,11 @@ if st.button("🔄 유사문제 생성"):
     index=None
 )
 
-if st.button("정답 보기"):
+    if st.button("정답 보기"):
 
-    st.success("정답 : ③")
+        st.success("정답 : ③")
 
-    st.markdown("""
+        st.markdown("""
 ### 📝 해설
 
 시퀀스 밸브는 설정 압력 이상이 되면

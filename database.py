@@ -63,22 +63,6 @@ def save_wrong_answer(
 
     conn.commit()
     conn.close()
-def get_wrong_dates():
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        SELECT wrong_date, COUNT(*)
-        FROM wrong_answers
-        GROUP BY wrong_date
-        ORDER BY wrong_date DESC
-    """)
-
-    data = cursor.fetchall()
-
-    conn.close()
-
-    return data
 def get_exam_history():
     conn = get_connection()
     cursor = conn.cursor()

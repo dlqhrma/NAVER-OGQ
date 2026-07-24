@@ -151,7 +151,7 @@ with col2:
                             "my_answer": st.session_state.answers[i],
                             "correct_answer": q["answer_index"]
                         })
-
+                        
                 st.session_state.score = score
                 st.session_state.total_questions = len(questions)
                 st.session_state.wrong_questions = wrong_questions

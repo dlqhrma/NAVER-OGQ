@@ -1,13 +1,11 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="AI 설비보전기능사 CBT Coach",
-    page_icon="🤖",
+    page_title="AI 설비보전기능사 CBT Coach",   
     layout="wide"
 )
 
-# 제목
-st.title("🤖 AI 설비보전기능사 CBT Coach")
+st.image("logo.gif", use_container_width=True)
 st.caption("AI 기반 설비보전기능사 필기시험 학습 서비스")
 
 st.divider()
